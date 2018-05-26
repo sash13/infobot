@@ -25,7 +25,7 @@ with open('messages.json', 'r') as f:
     messages_raw = json.load(f)
 
 messages = {
-        'join': messages_raw['join']['message'] + '<p>\n' + ' '.join(['<strong>Q:</strong>'+o["Q"]+'<br />\n<strong>A:</strong> '+o["A"]+'<br />\n<br />\n' for o in messages_raw['join']['QA']]) + '</p>',
+        'join': messages_raw['join']['message'] + '<p>\n' + ' '.join(['<strong>Q:</strong> '+o["Q"]+'<br />\n<strong>A:</strong> '+o["A"]+'<br />\n<br />\n' for o in messages_raw['join']['QA']]) + '</p>',
         'leave': messages_raw['leave']['message'],
         'ban': messages_raw['ban']['message']
 }
