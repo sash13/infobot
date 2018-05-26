@@ -7,6 +7,7 @@ from mmember_handler import MMemberHandler
 
 import logging
 import sys
+import json
 
 logging.basicConfig(
     filename='reduplicator1.log',
@@ -20,10 +21,13 @@ USERNAME = "infobot"  # Bot's username
 PASSWORD = ""  # Bot's password
 SERVER = "https://localhost"  # Matrix server URL
 
+with open('messages.json', 'r') as f:
+    messages_raw = json.load(f)
+
 messages = {
-        'join': 'Привет, это Навальный. (на самом деле нет)<br />\n<br />\nНебольшой <strong>FAQ</strong>:<p>\n<strong>Q:</strong>Я зарегистрировался на matrix.org и мне пришло сообщение про какой-то GDPR и просят принять условия? Что делать?<br />\n<strong>A:</strong> Принимать условия, либо идти на другой сервер, список публичных серверов тут <a href="https://www.hello-matrix.net/public_servers.php">https://www.hello-matrix.net/public_servers.php</a> или попросить в этой конфе.<br />\n<br />\n<strong>Q:</strong> Почему у пользователей нет статусов онлайн/оффлайн?<br />\n<strong>A:</strong> Скорее всего ты зарегистрировался на матрикс.орге, у них отключена данная функция \"из-за нагрузок\". Выход есть, регистрироватся на другом публичном сервисе или попросить в этой конфе.<br />\n<br />\n<strong>Q:</strong> Зачем этот бот?<br />\n<strong>A: </strong>Одни участники конфы каждый раз когда приходит новый человек стараются объянить все, другие же бомбят от этого. Чтоб сохранить энергию первых и вторых был создан этот бот. Роботы должны работат, а люди творить и наслаждаться искусством (мемами)!<br />\n</p>',
-'leave': 'https://www.youtube.com/watch?v=sos_GGtEQQQ',
-'ban': 'https://www.youtube.com/watch?v=sos_GGtEQQQ'
+        'join': messages_raw['join']['message'] + '<p>\n' + ' '.join(['<strong>Q:</strong>'+o["Q"]+'<br />\n<strong>A:</strong> '+o["A"]+'<br />\n<br />\n' for o in messages_raw['join']['QA']]) + '</p>',
+        'leave': messages_raw['leave']['message'],
+        'ban': messages_raw['ban']['message']
 }
 
 #["invite", "join", "leave", "ban"]
